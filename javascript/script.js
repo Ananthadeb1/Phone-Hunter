@@ -1,8 +1,8 @@
+
 const errorMessage = document.getElementById('error-message').style.display = "none";
 const searchFood = () => {
   const searchfield = document.getElementById('search-field')
   const searchText = searchfield.value;
-  // console.log(searchText)
   searchfield.value = "";
   const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
     fetch(url)
@@ -46,7 +46,6 @@ const dispaySearchResult = data => {
     }
     else if (data.length <= 20) {
       data.forEach(phone => {
-        // console.log(meal);
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
@@ -65,10 +64,6 @@ const dispaySearchResult = data => {
 
     }
   }
-
-
-
-
 }
 const loadDetail = phoneID => {
   const url = `https://openapi.programming-hero.com/api/phone/${phoneID}`;
@@ -78,7 +73,7 @@ const loadDetail = phoneID => {
 
 }
 const displyDetail = phone => {
-  console.log(phone)
+  const othersList = objListMaker(phone.others);
   let releaseDate = undefined;
   if (phone.releaseDate === '') {
     releaseDate = 'No release date found';
@@ -89,13 +84,10 @@ const displyDetail = phone => {
   const mealDetails = document.getElementById('meal-details');
 
   let sensors = phone.mainFeatures.sensors;
-  let i = 0;
-  let templateString = ``;
-  while (i < sensors.length) {
-    templateString = templateString + `<li> ${sensors[i]}</li>`;
-    i++;
-  }
-
+  const sensorList = listMaker(sensors);
+  let others = phone.others;
+  const otherList = listMaker(others);  
+  console.log(otherList);
   const div = document.createElement('div');
   div.innerHTML = `
     <div class="card mb-3 mx-auto" style="max-width: 540px;">
@@ -110,7 +102,10 @@ const displyDetail = phone => {
         <p class="card-text"> ${phone.mainFeatures.displaySize}</p>
         <p class="card-text">${phone.mainFeatures.memory}</p>
         <h6>Sensors</h6>
-        <ul> ${templateString}</ul>
+        <ul> ${sensorList}</ul>
+        <ul> ${otherList}</ul>
+        <h6>others</h6>
+        <ul>${othersList}<ul>
         <p class="card-text"><small class="text-muted">${releaseDate}</small></p>
       </div>
     </div>
@@ -118,4 +113,20 @@ const displyDetail = phone => {
 </div>
     `
   mealDetails.appendChild(div);
+}
+const objListMaker = object =>{
+  let objTemplateString =``;
+  for(const value in object){
+    objTemplateString = objTemplateString + `<li> ${value}: ${object[value]}</li>`;
+  }
+  return objTemplateString;
+}
+const listMaker = element =>{
+  let i = 0;
+  let templateString = ``;
+  while (i < element.length) {
+    templateString = templateString + `<li> ${element[i]}</li>`;
+    i++;
+  }
+  return templateString;
 }
