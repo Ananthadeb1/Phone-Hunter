@@ -5,7 +5,7 @@ const searchFood = () => {
   // console.log(searchText)
   searchfield.value = "";
   const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
-  fetch(url)
+    fetch(url)
     .then(res => res.json())
     .then(result => dispaySearchResult(result.data))
 }
@@ -71,8 +71,8 @@ const dispaySearchResult = data => {
 
 }
 const loadDetail = phoneID => {
-  const url = `https://openapi.programming-hero.com/api/phone/${phoneID}`
-  fetch(url)
+  const url = `https://openapi.programming-hero.com/api/phone/${phoneID}`;
+    fetch(url)
     .then(res => res.json())
     .then(result => displyDetail((result.data)));
 
@@ -92,7 +92,7 @@ const displyDetail = phone => {
   let i = 0;
   let templateString = ``;
   while (i < sensors.length) {
-    templateString = templateString + <li> ${sensors[i]}</li>;
+    templateString = templateString + `<li> ${sensors[i]}</li>`;
     i++;
   }
 
